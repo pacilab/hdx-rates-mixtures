@@ -5,7 +5,9 @@ The method implemented, described in ..., is an extension of Englander's method 
 
 To calculate rates from terminal, run the Python script `rates.py` from the folder containing the input sequence, specifying the required inputs.
 The results shown in the "example" folder have been generated running the command
-- `python ../rates.py --seq example.seq --pH 7 --temp 293 --eta 0.9 --out rates_090D.csv`
+
+`python ../rates.py --seq example.seq --pH 7 --temp 293 --eta 0.9 --out rates_090D.csv`.
+
 As an alternative, the scripts (or functions thereof) can be imported as modules, see the examples in the "notebooks" folder.
 
 Required arguments:
