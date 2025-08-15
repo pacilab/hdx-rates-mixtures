@@ -1,7 +1,5 @@
 # hdx-rates-mixtures
 
-# hdx-kint-mixtures
-
 Code for calculation of Hydrogen-Deuterium forward and back intrinsic exchange rates in mixtures.
 The method implemented, described in ..., is an extension of Englander's method (https://hx2.med.upenn.edu/download.html).
 
