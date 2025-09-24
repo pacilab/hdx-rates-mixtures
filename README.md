@@ -2,14 +2,14 @@
 
 Code for calculation of base-catalyzed Hydrogen-Deuterium forward and back intrinsic exchange rates in H<SUB>2</SUB>O-D<SUB>2</SUB>O mixtures.
 
-The method implemented, described in ..., is an extension of Englander's method (https://hx2.med.upenn.edu/download.html).
+The method implemented, described in https://doi.org/10.1101/2025.09.11.674334, is an extension of Englander's method (https://hx2.med.upenn.edu/download.html).
 
 ---
 
 To calculate rates from terminal, run the Python script `rates.py` from the folder containing the input sequence, specifying the required inputs.
 The results shown in the "example" folder have been generated running the command
 
-`python ../rates.py --seq example.seq --pH 7 --temp 293 --eta 0.9 --out rates_090D.csv`.
+`python ../rates.py --seq example.seq --pH 7 --temp 293 --deut 0.9 --out rates_090D.csv`.
 
 As an alternative, the scripts (or functions therein) can be imported and ran in a Jupyter Notebook, see the examples in the "notebooks" folder.
 
