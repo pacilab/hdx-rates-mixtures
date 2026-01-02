@@ -9,7 +9,7 @@ The method implemented, described in https://doi.org/10.1101/2025.09.11.674334, 
 To calculate rates from terminal, run the Python script `rates.py` from the folder containing the input sequence, specifying the required inputs.
 The results shown in the "example" folder have been generated running the command
 
-`python ../rates.py --seq example.seq --pH 7 --temp 293 --deut 0.9 --out rates_090D.csv`.
+`python ../kint.py --seq example.seq --pH 7 --temp 293 --deut 0.9 --out rates_090D.csv`.
 
 As an alternative, the scripts (or functions therein) can be imported and ran in a Jupyter Notebook, see the examples in the "notebooks" folder.
 
