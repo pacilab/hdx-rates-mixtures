@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Last modified on Jun 5th, 2025
+Last modified on Jan 12th, 2026
 
 Author: Antonio Grimaldi
 
@@ -70,12 +70,12 @@ def get_temperature_factors(T, T_ref=293):
 
 #%%
 
-def get_kref(T, ref='3Ala'):
+def get_kref(T, ref='PDLA'):
     """
     Parameters
     ----------
     T : temperature (in K)
-    ref : reference values to be used ('PDLA' or '3Ala'). Default to '3Ala'.  
+    ref : reference values to be used ('PDLA' or '3Ala'). Default to 'PDLA'.  
 
     Returns
     -------
@@ -319,7 +319,7 @@ def calculate_res_Bai_factors(resn, seq, table):
 
 # calculate intrinsic rate of a residue (base-catalyzed only, pH > 4)
 
-def calculate_kint(seq, T, x, pH_read, ref='3Ala', shift=0):
+def calculate_kint(seq, T, x, pH_read, ref='PDLA', shift=0):
     """
     Parameters
     ----------
@@ -349,34 +349,56 @@ def calculate_kint(seq, T, x, pH_read, ref='3Ala', shift=0):
     mixture_params = get_effective_acidity(T, x, pH_read)
     pKW_mix = mixture_params['pKx']
     pL = mixture_params['pL']
-    OL = 10 ** (pL - pKW_mix)
+    concentration_L = 10 ** (-pL)
+    concentration_OL = 10 ** (pL - pKW_mix)
 
     # generate tables of Bai coefficients for all isotope combinations
     Bai_tables = make_Bai_tables(T, pL)
     
-    # isotopic abundance of D in OL-
-    fD = get_ions_isotopic_abundance(x)['frac_OL']
-    # [OD-] = [OL-] * fD
-    # [OH-] = [OL-] * (1-fD)
+    # isotopic abundance of D+ in L+
+    # [D+] = [L+] * fD, [H+] = [L+] * (1-fD)
+    fD = get_ions_isotopic_abundance(x)['frac_L']
+    # isotopic abundance of OD- in OL-
+    # [OD-] = [OL-] * fOD, [OH-] = [OL-] * (1-fOD)
+    fOD = get_ions_isotopic_abundance(x)['frac_OL']
     
     kint = pd.DataFrame(columns=['res', 'kforw', 'kback'])
             
     for resn in range(1, len(seq)+1):
         
-        resrates = {}
+        kforw, kback = 0, 0
         
         for pair in isotope_pairs:
             
             table = Bai_tables[pair]
             B = calculate_res_Bai_factors(resn, seq, table)['B']
 
-            if pair.endswith('H'):
-                resrates[pair] = kref.loc[pair, 'kB'] * B * OL * (1-fD) # removal by OH-
-            elif pair.endswith('D'):
-                resrates[pair] = kref.loc[pair, 'kB'] * B * OL * fD # removal by OD-
-        
-        kforw = (resrates['HH'] + resrates['HD']) * x
-        kback = (resrates['DH'] + resrates['DD']) * (1-x)
+            if pair == 'HH':
+                # base
+                kforw += x * kref.loc[pair, 'kB'] * B * concentration_OL * (1-fOD) # removal by OH-
+                kback += (1-x) * kref.loc[pair, 'kB'] * B * concentration_OL * (1-fOD) # removal by OH-
+            if pair == 'HD':
+                # acid
+                A = calculate_res_Bai_factors(resn, seq, table)['A']
+                kforw += kref.loc[pair, 'kA'] * A * concentration_L * fD # protonation by D+
+                # base
+                kforw += x * kref.loc[pair, 'kB'] * B * concentration_OL * fOD # removal by OD-
+                kback += (1-x) * kref.loc[pair, 'kB'] * B * concentration_OL * fOD # removal by OD-
+                # water
+                kforw += x * kref.loc[pair, 'kW'] * B
+            if pair == 'DH':
+                # acid
+                A = calculate_res_Bai_factors(resn, seq, table)['A']
+                kback += kref.loc[pair, 'kA'] * A * concentration_L * (1-fD) # protonation by H+
+                # base
+                kforw += x * kref.loc[pair, 'kB'] * B * concentration_OL * (1-fOD) # removal by OH-
+                kback += (1-x) * kref.loc[pair, 'kB'] * B * concentration_OL * (1-fOD) # removal by OH-
+                # water
+                kback += (1-x) * kref.loc[pair, 'kW'] * B
+            if pair == 'DD':
+                # base
+                kforw += x * kref.loc[pair, 'kB'] * B * concentration_OL * fOD # removal by OD-
+                kback += (1-x) * kref.loc[pair, 'kB'] * B * concentration_OL * fOD # removal by OD-
         
         kint.loc[resn+shift] = (seq[resn-1], kforw, kback)
 

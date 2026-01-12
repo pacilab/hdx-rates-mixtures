@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Last modified on Apr 17th, 2025
+Last modified on Jan 12th, 2026
 
 Author: Antonio Grimaldi
 
@@ -45,7 +45,7 @@ def run():
                         help='solvent deuteration level; must be in [0,1]'
                         )
     parser.add_argument("--ref",
-                        required=False, type=str, default="3Ala",
+                        required=False, type=str, default="PDLA",
                         help='Reference for computation of rates; choose "PDLA" or "3Ala"')
     parser.add_argument("--time",
                         required=False, type=str, default="s",
