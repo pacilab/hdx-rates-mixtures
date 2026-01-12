@@ -1,12 +1,12 @@
 # hdx-rates-mixtures
 
-Code for calculation of base-catalyzed Hydrogen-Deuterium forward and back intrinsic exchange rates in H<SUB>2</SUB>O-D<SUB>2</SUB>O mixtures.
+Code for calculation of Hydrogen-Deuterium forward and back intrinsic exchange rates in H<SUB>2</SUB>O-D<SUB>2</SUB>O mixtures.
 
 The method implemented, described in https://doi.org/10.1101/2025.09.11.674334, is an extension of Englander's method (https://hx2.med.upenn.edu/download.html).
 
 ---
 
-To calculate rates from terminal, run the Python script `rates.py` from the folder containing the input sequence, specifying the required inputs.
+To calculate rates from terminal, run the Python script `kint.py` from the folder containing the input sequence, specifying the required inputs.
 The results shown in the "example" folder have been generated running the command
 
 `python ../kint.py --seq example.seq --pH 7 --temp 293 --deut 0.9 --out rates_090D.csv`.
@@ -24,7 +24,7 @@ Optional arguments:
 - `--deut` deuteration level, must be a float in [0,1], with 0 = 100% H<SUB>2</SUB>O, 1 = 100% D<SUB>2</SUB>O. 
   Default to 1.
 - `--ref = 'PDLA' OR '3Ala'` reference for intrinsic exchange rates calculation.
-  Default to `'3Ala'`.
+  Default to `'PDLA'`.
 - `--time = 'h' OR 'm' OR 's'` inverse units of the computed rates.
   Default to `'s'`.
 - `--shift` shift in the index of the first amino acid, must be an integer.
