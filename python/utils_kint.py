@@ -375,15 +375,13 @@ def calculate_kint(seq, T, x, pH_read, ref='PDLA', shift=0):
 
             if pair == 'HH':
                 # base
-                kforw += x * kref.loc[pair, 'kB'] * B * concentration_OL * (1-fOD) # removal by OH-
-                kback += (1-x) * kref.loc[pair, 'kB'] * B * concentration_OL * (1-fOD) # removal by OH-
+                kforw += x * kref.loc[pair, 'kB'] * B * concentration_OL * (1-fOD) # removal of H by OH-
             if pair == 'HD':
                 # acid
                 A = calculate_res_Bai_factors(resn, seq, table)['A']
                 kforw += kref.loc[pair, 'kA'] * A * concentration_L * fD # protonation by D+
                 # base
-                kforw += x * kref.loc[pair, 'kB'] * B * concentration_OL * fOD # removal by OD-
-                kback += (1-x) * kref.loc[pair, 'kB'] * B * concentration_OL * fOD # removal by OD-
+                kforw += x * kref.loc[pair, 'kB'] * B * concentration_OL * fOD # removal of H by OD-
                 # water
                 kforw += x * kref.loc[pair, 'kW'] * B
             if pair == 'DH':
@@ -391,13 +389,11 @@ def calculate_kint(seq, T, x, pH_read, ref='PDLA', shift=0):
                 A = calculate_res_Bai_factors(resn, seq, table)['A']
                 kback += kref.loc[pair, 'kA'] * A * concentration_L * (1-fD) # protonation by H+
                 # base
-                kforw += x * kref.loc[pair, 'kB'] * B * concentration_OL * (1-fOD) # removal by OH-
                 kback += (1-x) * kref.loc[pair, 'kB'] * B * concentration_OL * (1-fOD) # removal by OH-
                 # water
                 kback += (1-x) * kref.loc[pair, 'kW'] * B
             if pair == 'DD':
                 # base
-                kforw += x * kref.loc[pair, 'kB'] * B * concentration_OL * fOD # removal by OD-
                 kback += (1-x) * kref.loc[pair, 'kB'] * B * concentration_OL * fOD # removal by OD-
         
         kint.loc[resn+shift] = (seq[resn-1], kforw, kback)
