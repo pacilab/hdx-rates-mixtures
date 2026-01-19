@@ -180,26 +180,6 @@ def get_His_line(table, pL, pKc_His):
     
     return np.log10(log_arg(pKc_His, pL, table))
 
-def get_AL_His(table, pL, pKc_His):
-    
-    log_den = lambda pKc, pL : 10**(-pKc)+10**(-pL)
-    log_num = lambda pKc, pL, table : 10**(table.loc['H+', 'AL']-pL) + 10**(-pKc)
-    
-    log_arg = lambda pKc, pL, table : log_num(pKc,pL,table)/log_den(pKc,pL)
-    
-    return np.log10(log_arg(pKc_His, pL, table))
-
-def get_AR_His(table, pL, pKc_His):
-    
-    log_den = lambda pKc, pL : 10**(-pKc)+10**(-pL)
-    log_num = lambda pKc, pL, table : 10**(table.loc['H+', 'AR']-pL) + 10**(-pKc)
-    
-    log_arg = lambda pKc, pL, table : log_num(pKc,pL,table)/log_den(pKc,pL)
-    
-    print(log_arg(pKc_His, pL, table))
-    
-    return np.log10(log_arg(pKc_His, pL, table))
-
 # to do: -NHMe
 
 #%%
