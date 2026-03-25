@@ -1,8 +1,10 @@
 # hdx-rates-mixtures
 
-Code for calculation of Hydrogen-Deuterium forward and back intrinsic exchange rates in H<SUB>2</SUB>O-D<SUB>2</SUB>O mixtures.
+Code for calculation of Hydrogen-Deuterium forward and back intrinsic exchange rates in H<SUB>2</SUB>O/D<SUB>2</SUB>O mixtures, based on [reference rates](https://hx2.med.upenn.edu/download.html) measured by Englander's group.
 
-The method implemented, described in https://doi.org/10.1101/2025.09.11.674334, is an extension of Englander's method (https://hx2.med.upenn.edu/download.html).
+Please cite the following reference when using this software:
+
+Grimaldi, A., Stofella, M., & Paci, E. (2026). Intrinsic Hydrogen–Deuterium Exchange Rates in H<SUB>2</SUB>O/D<SUB>2</SUB>O Mixtures. _The Journal of Physical Chemistry B_, _130(9)_, 2493–2500. [DOI: 10.1021/acs.jpcb.5c06636](https://doi.org/10.1021/acs.jpcb.5c06636)
 
 ---
 
